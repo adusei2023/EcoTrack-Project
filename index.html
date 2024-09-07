@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+        <h1>EcoTrack</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="climate.html">Climate Change Info</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="weather">
+            <h2>Weather Information</h2>
+            <div id="weatherData">Loading weather data...</div>
+        </section>
+
+        <section id="footprint">
+            <h2>Your Carbon Footprint</h2>
+            <form id="footprintForm">
+                <label for="activity">Enter your activity:</label>
+                <input type="text" id="activity" name="activity" required>
+                <button type="submit">Calculate</button>
+            </form>
+            <div id="footprintResult"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 EcoTrack</p>
+    </footer>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>

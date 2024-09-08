@@ -1,41 +1,60 @@
-document.addEventListener('DOMContentLoaded', () => {
-    fetchWeatherData();
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle weather form submission
+    const weatherForm = document.getElementById('weatherForm');
+    weatherForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        const city = document.getElementById('city').value;
+        await fetchWeatherData(city);
+    });
 
+    // Handle footprint form submission
     const footprintForm = document.getElementById('footprintForm');
-    footprintForm.addEventListener('submit', calculateFootprint);
+    footprintForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        await calculateFootprint();
+    });
 });
 
-function fetchWeatherData() {
-    const apiKey = '0f7e694f46msh3881d419eee8509p1b7ff0jsncb198043824e'; // Your API key
+// Fetch weather data based on user input
+async function fetchWeatherData(city) {
+    try {
+        const apiKey = 'f2876b99e4f6974069b2022cad36d2ec'; // Your OpenWeather API key
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
+        const data = await response.json();
 
-    const city = 'London';  // You can change this to get data based on user input
+        if (data.cod === '404') {
+            throw new Error('City not found');
+        }
 
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-            const weatherDataDiv = document.getElementById('weatherData');
-            weatherDataDiv.innerHTML = `
-                <p>City: ${data.name}</p>
-                <p>Temperature: ${(data.main.temp - 273.15).toFixed(2)} °C</p>
-                <p>Weather: ${data.weather[0].description}</p>
-            `;
-        })
-        .catch(error => console.error('Error fetching weather data:', error));
+        const weatherDataDiv = document.getElementById('weatherData');
+        weatherDataDiv.innerHTML = `
+            <p>City: ${data.name}</p>
+            <p>Temperature: ${(data.main.temp - 273.15).toFixed(2)} °C</p>
+            <p>Weather: ${data.weather[0].description}</p>
+        `;
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
+        const weatherDataDiv = document.getElementById('weatherData');
+        weatherDataDiv.innerHTML = 'Error fetching weather data. Please try again later.';
+    }
 }
 
-function calculateFootprint(event) {
-    event.preventDefault();
-
+// Calculate carbon footprint based on user input
+async function calculateFootprint() {
     const activity = document.getElementById('activity').value;
-    const apiKey = 'YOUR_CARBON_FOOTPRINT_API_KEY'; // Replace with actual API key
+    const apiKey = 'YOUR_CARBON_FOOTPRINT_API_KEY'; // Replace with your actual API key
 
-    fetch(`https://api.carbonfootprint.com/calculate?activity=${activity}&apikey=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-            const footprintResultDiv = document.getElementById('footprintResult');
-            footprintResultDiv.innerHTML = `
-                <p>Carbon Footprint: ${data.footprint} kg CO2</p>
-            `;
-        })
-        .catch(error => console.error('Error calculating carbon footprint:', error));
+    try {
+        const response = await fetch(`https://api.carbonfootprint.com/calculate?activity=${activity}&apikey=${apiKey}`);
+        const data = await response.json();
+
+        const footprintResultDiv = document.getElementById('footprintResult');
+        footprintResultDiv.innerHTML = `
+            <p>Carbon Footprint: ${data.footprint} kg CO2</p>
+        `;
+    } catch (error) {
+        console.error('Error calculating carbon footprint:', error);
+        const footprintResultDiv = document.getElementById('footprintResult');
+        footprintResultDiv.innerHTML = 'Error calculating carbon footprint. Please try again later.';
+    }
 }

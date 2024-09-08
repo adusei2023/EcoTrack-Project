@@ -3,31 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTrack</title>
+    <meta name="description" content="EcoTrack - Track weather information and calculate your carbon footprint.">
+    <title>EcoTrack - Track Climate & Carbon Footprint</title>
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
     <header>
-        <h1>EcoTrack</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="climate.html">Climate Change Info</a></li>
-            </ul>
-        </nav>
+        <div class="container">
+            <h1>EcoTrack</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="climate.html">Climate Change Info</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <main>
-        <section id="weather">
+        <section id="weather" class="container">
             <h2>Weather Information</h2>
-            <div id="weatherData">Loading weather data...</div>
+            <form id="weatherForm">
+                <label for="city">Enter City:</label>
+                <input type="text" id="city" name="city" placeholder="Enter city name" required>
+                <button type="submit">Get Weather</button>
+            </form>
+            <div id="weatherData">Weather data will appear here...</div>
         </section>
 
-        <section id="footprint">
-            <h2>Your Carbon Footprint</h2>
+        <section id="footprint" class="container">
+            <h2>Calculate Your Carbon Footprint</h2>
             <form id="footprintForm">
                 <label for="activity">Enter your activity:</label>
-                <input type="text" id="activity" name="activity" required>
+                <input type="text" id="activity" name="activity" placeholder="e.g., driving, flying" required>
                 <button type="submit">Calculate</button>
             </form>
             <div id="footprintResult"></div>
@@ -35,7 +43,9 @@
     </main>
 
     <footer>
-        <p>&copy; 2024 EcoTrack</p>
+        <div class="container">
+            <p>&copy; 2024 EcoTrack. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="scripts/app.js"></script>

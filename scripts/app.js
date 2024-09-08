@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Fetch weather data based on user input
 async function fetchWeatherData(city) {
     try {
-        const apiKey = 'f2876b99e4f6974069b2022cad36d2ec'; // Your OpenWeather API key
+        const apiKey = 'f2876b99e4f6974069b2022cad36d2ec'; // OpenWeather API key
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
         const data = await response.json();
 
@@ -39,18 +39,38 @@ async function fetchWeatherData(city) {
     }
 }
 
-// Calculate carbon footprint based on user input
+// Calculate carbon footprint using Carbon Interface API
 async function calculateFootprint() {
     const activity = document.getElementById('activity').value;
-    const apiKey = 'YOUR_CARBON_FOOTPRINT_API_KEY'; // Replace with your actual API key
+    const apiKey = 'O94TX4nPqEUULOxTMmDqQ'; // Your Carbon Interface API key
+    const vehicleModelId = 'PUT_VEHICLE_MODEL_ID_HERE'; // Replace with valid vehicle model ID from the first step
+    const distance = 100; // Example distance (you can make this dynamic)
 
     try {
-        const response = await fetch(`https://api.carbonfootprint.com/calculate?activity=${activity}&apikey=${apiKey}`);
+        const response = await fetch('https://www.carboninterface.com/api/v1/estimates', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: 'vehicle',
+                vehicle_model_id: vehicleModelId,
+                distance_unit: 'km',
+                distance_value: distance
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Error fetching carbon footprint data');
+        }
+
         const data = await response.json();
 
         const footprintResultDiv = document.getElementById('footprintResult');
         footprintResultDiv.innerHTML = `
-            <p>Carbon Footprint: ${data.footprint} kg CO2</p>
+            <p>Activity: ${activity}</p>
+            <p>Carbon Footprint: ${data.data.attributes.carbon_mt} metric tons CO2</p>
         `;
     } catch (error) {
         console.error('Error calculating carbon footprint:', error);

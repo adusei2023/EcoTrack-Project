@@ -23,22 +23,22 @@
     <main>
         <section id="weather" class="container">
             <h2>Weather Information</h2>
-            <form id="weatherForm">
+            <form id="weatherForm" class="form-inline">
                 <label for="city">Enter City:</label>
                 <input type="text" id="city" name="city" placeholder="Enter city name" required>
                 <button type="submit">Get Weather</button>
             </form>
-            <div id="weatherData">Weather data will appear here...</div>
+            <div id="weatherData" class="data-display">Weather data will appear here...</div>
         </section>
 
         <section id="footprint" class="container">
             <h2>Calculate Your Carbon Footprint</h2>
-            <form id="footprintForm">
+            <form id="footprintForm" class="form-inline">
                 <label for="activity">Enter your activity:</label>
                 <input type="text" id="activity" name="activity" placeholder="e.g., driving, flying" required>
                 <button type="submit">Calculate</button>
             </form>
-            <div id="footprintResult"></div>
+            <div id="footprintResult" class="data-display">Results will appear here...</div>
         </section>
     </main>
 

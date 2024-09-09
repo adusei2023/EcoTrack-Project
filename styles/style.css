@@ -112,3 +112,10 @@ footer {
     font-size: 0.875rem;
     border-top: 4px solid #333;
 }
+.about-section {
+    background-color: #f9f9f9;
+    padding: 40px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

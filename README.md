@@ -83,4 +83,4 @@ Contact
 For questions or feedback, please contact me:
 
 Email: samuelad1949@gmail.com and gloriaboateng2011@gmail.com
-LinkedIn: Samuel Adusei Boateng and gloria boateng
+LinkedIn: Samuel Adusei Boateng and Gloria Boateng

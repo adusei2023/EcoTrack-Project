@@ -73,7 +73,10 @@ Contributions to EcoTrack are welcome! To contribute:
 Fork the repository.
 Create a new branch: git checkout -b feature/YourFeature
 Make your changes.
-Commit your changes: git commit -am 'Add new feature'
+```bash
+Commit your changes: 
+git commit -am "Add new feature"
+```
 Push to the branch: git push origin feature/YourFeature
 Create a new Pull Request.
 License

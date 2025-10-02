@@ -56,6 +56,40 @@
             <button id="clearHistory" class="clear-btn" style="display: none;">Clear History</button>
         </section>
 
+        <section id="ai-insights" class="container">
+            <h2>🤖 AI-Powered Insights</h2>
+            <div id="aiInsightsContent" class="ai-insights-content">
+                <p class="empty-state">Track your carbon footprint to get personalized AI insights and recommendations!</p>
+            </div>
+        </section>
+
+        <section id="ai-assistant" class="container">
+            <h2>💬 EcoAI Assistant</h2>
+            <p class="assistant-intro">Ask our AI assistant anything about climate change, carbon footprints, or sustainability!</p>
+            <div class="chat-container">
+                <div id="chatMessages" class="chat-messages">
+                    <div class="chat-message bot-message">
+                        <span class="message-icon">🤖</span>
+                        <div class="message-content">
+                            <p>Hello! I'm EcoAI, your intelligent sustainability assistant. I can help you with:</p>
+                            <ul>
+                                <li>Understanding your carbon footprint</li>
+                                <li>Getting personalized eco-tips</li>
+                                <li>Learning about climate change</li>
+                                <li>Finding ways to reduce emissions</li>
+                            </ul>
+                            <p>What would you like to know?</p>
+                        </div>
+                    </div>
+                </div>
+                <form id="chatForm" class="chat-input-form">
+                    <input type="text" id="chatInput" placeholder="Ask me anything about sustainability..." aria-label="Chat message">
+                    <button type="button" id="voiceButton" class="voice-btn" aria-label="Voice input">🎤</button>
+                    <button type="submit" aria-label="Send message">Send</button>
+                </form>
+            </div>
+        </section>
+
         <section id="tips" class="container">
             <h2>💡 Eco-Friendly Tips</h2>
             <div class="tips-grid">

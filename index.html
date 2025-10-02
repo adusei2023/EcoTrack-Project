@@ -37,6 +37,10 @@
             <form id="footprintForm" class="form-inline">
                 <label for="activity">Enter your activity:</label>
                 <input type="text" id="activity" name="activity" placeholder="e.g., driving, flying" required>
+                <label for="vehicleModelId">Vehicle Model ID:</label>
+                <input type="text" id="vehicleModelId" name="vehicleModelId" placeholder="e.g., 7268a9b7-17e8-4c8d-acca-57059252afe9" required>
+                <label for="distance">Distance (km):</label>
+                <input type="number" id="distance" name="distance" placeholder="e.g., 100" step="0.01" min="0.01" required>
                 <button type="submit">Calculate</button>
             </form>
             <div id="footprintResult" class="data-display">Results will appear here...</div>

@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Fetch weather data based on user input
 async function fetchWeatherData(city) {
+    const weatherDataDiv = document.getElementById('weatherData');
+    
+    // Show loading state
+    weatherDataDiv.innerHTML = '<div class="loading">Loading weather data...</div>';
+    
     try {
         const apiKey = 'f2876b99e4f6974069b2022cad36d2ec'; // OpenWeather API key
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
@@ -26,16 +31,26 @@ async function fetchWeatherData(city) {
             throw new Error('City not found');
         }
 
-        const weatherDataDiv = document.getElementById('weatherData');
+        const tempCelsius = (data.main.temp - 273.15).toFixed(1);
+        const feelsLike = (data.main.feels_like - 273.15).toFixed(1);
+        
         weatherDataDiv.innerHTML = `
-            <p>City: ${data.name}</p>
-            <p>Temperature: ${(data.main.temp - 273.15).toFixed(2)} °C</p>
-            <p>Weather: ${data.weather[0].description}</p>
+            <div class="success">
+                <h3 style="margin-top: 0;">📍 ${data.name}, ${data.sys.country}</h3>
+                <p><strong>Temperature:</strong> ${tempCelsius} °C</p>
+                <p><strong>Feels Like:</strong> ${feelsLike} °C</p>
+                <p><strong>Weather:</strong> ${data.weather[0].description}</p>
+                <p><strong>Humidity:</strong> ${data.main.humidity}%</p>
+                <p><strong>Wind Speed:</strong> ${data.wind.speed} m/s</p>
+            </div>
         `;
     } catch (error) {
         console.error('Error fetching weather data:', error);
-        const weatherDataDiv = document.getElementById('weatherData');
-        weatherDataDiv.innerHTML = 'Error fetching weather data. Please try again later.';
+        weatherDataDiv.innerHTML = `
+            <div class="error">
+                <strong>Error:</strong> ${error.message === 'City not found' ? 'City not found. Please check the spelling and try again.' : 'Unable to fetch weather data. Please try again later.'}
+            </div>
+        `;
     }
 }
 
@@ -50,16 +65,16 @@ async function calculateFootprint() {
     footprintResultDiv.innerHTML = '';
 
     if (!vehicleModelId || !distance) {
-        alert('Please enter both vehicle model ID and distance.');
+        footprintResultDiv.innerHTML = '<div class="error">Please enter both vehicle model ID and distance.</div>';
         return;
     }
 
     if (isNaN(distance) || distance <= 0) {
-        alert('Please enter a valid distance.');
+        footprintResultDiv.innerHTML = '<div class="error">Please enter a valid distance greater than 0.</div>';
         return;
     }
 
-    footprintResultDiv.innerHTML = '<p>Calculating...</p>'; // Show a loader
+    footprintResultDiv.innerHTML = '<div class="loading">Calculating your carbon footprint...</div>';
 
     try {
         // Make API request to Carbon Interface
@@ -94,17 +109,29 @@ async function calculateFootprint() {
         }
 
         const carbonFootprint = data.data.attributes.carbon_mt;
+        const carbonKg = (carbonFootprint * 1000).toFixed(2);
 
         // Update the UI with the result
         footprintResultDiv.innerHTML = `
-            <p>Activity: ${activity}</p>
-            <p>Carbon Footprint: ${carbonFootprint.toFixed(4)} metric tons CO2</p>
+            <div class="success">
+                <h3 style="margin-top: 0;">🌱 Carbon Footprint Result</h3>
+                <p><strong>Activity:</strong> ${activity}</p>
+                <p><strong>Distance:</strong> ${distance} km</p>
+                <p><strong>Carbon Emissions:</strong> ${carbonFootprint.toFixed(4)} metric tons CO2</p>
+                <p><strong>Equivalent:</strong> ${carbonKg} kg CO2</p>
+                <p style="margin-top: 15px; font-style: italic; color: #666;">💡 Tip: Consider carpooling, using public transport, or switching to electric vehicles to reduce your carbon footprint!</p>
+            </div>
         `;
     } catch (error) {
         // Log the full error for debugging
         console.error('Error calculating carbon footprint:', error);
 
         // Display a user-friendly message
-        footprintResultDiv.innerHTML = `<p>Error calculating carbon footprint: ${error.message}. Please try again later.</p>`;
+        footprintResultDiv.innerHTML = `
+            <div class="error">
+                <strong>Error:</strong> ${error.message}
+                <p style="margin-top: 10px;">Please verify your vehicle model ID and try again.</p>
+            </div>
+        `;
     }
 }

@@ -19,6 +19,7 @@
                     <li><a href="about.html">About Us</a></li>
                 </ul>
             </nav>
+            <button id="darkModeToggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
         </div>
     </header>
 
@@ -45,6 +46,50 @@
                 <button type="submit">Calculate</button>
             </form>
             <div id="footprintResult" class="data-display">Results will appear here...</div>
+        </section>
+
+        <section id="history" class="container">
+            <h2>📊 Your Carbon Footprint History</h2>
+            <div id="historyList" class="history-container">
+                <p class="empty-state">No calculations yet. Start tracking your carbon footprint above!</p>
+            </div>
+            <button id="clearHistory" class="clear-btn" style="display: none;">Clear History</button>
+        </section>
+
+        <section id="tips" class="container">
+            <h2>💡 Eco-Friendly Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <span class="tip-icon">🚲</span>
+                    <h3>Use Active Transport</h3>
+                    <p>Walk, bike, or use public transport to reduce your carbon footprint by up to 2.5 tons per year.</p>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">♻️</span>
+                    <h3>Reduce, Reuse, Recycle</h3>
+                    <p>Recycling and composting can save 1,200 lbs of CO2 annually per household.</p>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">🌱</span>
+                    <h3>Plant Trees</h3>
+                    <p>A single tree can absorb 48 lbs of CO2 per year. Plant native species in your area.</p>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">💡</span>
+                    <h3>Energy Efficient Appliances</h3>
+                    <p>Switch to LED bulbs and Energy Star appliances to cut energy use by 30-50%.</p>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">🥗</span>
+                    <h3>Eat Local & Seasonal</h3>
+                    <p>Reduce food miles and support local farmers. A plant-based meal can save 2.5kg of CO2.</p>
+                </div>
+                <div class="tip-card">
+                    <span class="tip-icon">💧</span>
+                    <h3>Conserve Water</h3>
+                    <p>Fix leaks and use water-efficient fixtures. Treating water requires energy and produces CO2.</p>
+                </div>
+            </div>
         </section>
     </main>
 

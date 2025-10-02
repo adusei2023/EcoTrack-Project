@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize dark mode
+    initializeDarkMode();
+
+    // Load and display history
+    displayHistory();
+
     // Handle weather form submission
     const weatherForm = document.getElementById('weatherForm');
     weatherForm.addEventListener('submit', async function(event) {
@@ -13,7 +19,112 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         await calculateFootprint();
     });
+
+    // Handle clear history button
+    const clearHistoryBtn = document.getElementById('clearHistory');
+    clearHistoryBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to clear all history?')) {
+            localStorage.removeItem('carbonFootprintHistory');
+            displayHistory();
+        }
+    });
+
+    // Handle dark mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    darkModeToggle.addEventListener('click', toggleDarkMode);
 });
+
+// Dark Mode Functions
+function initializeDarkMode() {
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeToggle').textContent = '☀️';
+    }
+}
+
+function toggleDarkMode() {
+    const body = document.body;
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    
+    body.classList.toggle('dark-mode');
+    const isDarkMode = body.classList.contains('dark-mode');
+    
+    localStorage.setItem('darkMode', isDarkMode);
+    darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+}
+
+// History Management Functions
+function saveToHistory(data) {
+    let history = JSON.parse(localStorage.getItem('carbonFootprintHistory') || '[]');
+    
+    const entry = {
+        id: Date.now(),
+        date: new Date().toLocaleString(),
+        activity: data.activity,
+        distance: data.distance,
+        carbonMt: data.carbonMt,
+        carbonKg: data.carbonKg,
+        treesNeeded: calculateTreesNeeded(data.carbonMt),
+        daysOfElectricity: calculateElectricityDays(data.carbonMt)
+    };
+    
+    history.unshift(entry); // Add to beginning
+    
+    // Keep only last 10 entries
+    if (history.length > 10) {
+        history = history.slice(0, 10);
+    }
+    
+    localStorage.setItem('carbonFootprintHistory', JSON.stringify(history));
+    displayHistory();
+}
+
+function displayHistory() {
+    const history = JSON.parse(localStorage.getItem('carbonFootprintHistory') || '[]');
+    const historyList = document.getElementById('historyList');
+    const clearBtn = document.getElementById('clearHistory');
+    
+    if (history.length === 0) {
+        historyList.innerHTML = '<p class="empty-state">No calculations yet. Start tracking your carbon footprint above!</p>';
+        clearBtn.style.display = 'none';
+        return;
+    }
+    
+    clearBtn.style.display = 'block';
+    
+    historyList.innerHTML = history.map(entry => `
+        <div class="history-item">
+            <div class="history-item-header">
+                <strong>🌱 ${entry.activity}</strong>
+                <span class="history-item-date">${entry.date}</span>
+            </div>
+            <div class="history-item-content">
+                <p><strong>Distance:</strong> ${entry.distance} km</p>
+                <p><strong>CO2 Emissions:</strong> ${entry.carbonKg} kg</p>
+            </div>
+            <div class="offset-info">
+                🌳 <strong>Offset:</strong> Plant ${entry.treesNeeded} tree${entry.treesNeeded !== 1 ? 's' : ''} to offset this emission<br>
+                💡 <strong>Equivalent:</strong> ${entry.daysOfElectricity} day${entry.daysOfElectricity !== 1 ? 's' : ''} of household electricity
+            </div>
+        </div>
+    `).join('');
+}
+
+// Carbon Offset Calculation Functions
+function calculateTreesNeeded(carbonMt) {
+    // A tree absorbs approximately 21.77 kg (0.02177 metric tons) of CO2 per year
+    const kgPerTree = 21.77;
+    const carbonKg = carbonMt * 1000;
+    return Math.ceil(carbonKg / kgPerTree);
+}
+
+function calculateElectricityDays(carbonMt) {
+    // Average US household uses about 30 kWh per day, producing ~12.7 kg CO2
+    const kgPerDay = 12.7;
+    const carbonKg = carbonMt * 1000;
+    return Math.round(carbonKg / kgPerDay);
+}
 
 // Fetch weather data based on user input
 async function fetchWeatherData(city) {
@@ -110,6 +221,16 @@ async function calculateFootprint() {
 
         const carbonFootprint = data.data.attributes.carbon_mt;
         const carbonKg = (carbonFootprint * 1000).toFixed(2);
+        const treesNeeded = calculateTreesNeeded(carbonFootprint);
+        const daysOfElectricity = calculateElectricityDays(carbonFootprint);
+
+        // Save to history
+        saveToHistory({
+            activity: activity,
+            distance: distance,
+            carbonMt: carbonFootprint,
+            carbonKg: carbonKg
+        });
 
         // Update the UI with the result
         footprintResultDiv.innerHTML = `
@@ -119,6 +240,11 @@ async function calculateFootprint() {
                 <p><strong>Distance:</strong> ${distance} km</p>
                 <p><strong>Carbon Emissions:</strong> ${carbonFootprint.toFixed(4)} metric tons CO2</p>
                 <p><strong>Equivalent:</strong> ${carbonKg} kg CO2</p>
+                <div style="margin-top: 15px; padding: 15px; background-color: rgba(76, 175, 80, 0.1); border-radius: 8px;">
+                    <h4 style="margin: 0 0 10px 0; color: #2e7d32;">🌳 Carbon Offset Options:</h4>
+                    <p style="margin: 5px 0;">• Plant <strong>${treesNeeded}</strong> tree${treesNeeded !== 1 ? 's' : ''} to offset this emission</p>
+                    <p style="margin: 5px 0;">• This is equivalent to <strong>${daysOfElectricity}</strong> day${daysOfElectricity !== 1 ? 's' : ''} of household electricity</p>
+                </div>
                 <p style="margin-top: 15px; font-style: italic; color: #666;">💡 Tip: Consider carpooling, using public transport, or switching to electric vehicles to reduce your carbon footprint!</p>
             </div>
         `;

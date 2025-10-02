@@ -26,6 +26,10 @@ header {
     z-index: 1000;
 }
 
+header .container {
+    position: relative;
+}
+
 header h1 {
     margin: 0 0 15px 0;
     font-size: 2.5rem;
@@ -265,6 +269,18 @@ a:hover {
     .container {
         padding: 0 15px;
     }
+
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
@@ -309,5 +325,201 @@ input:focus {
 
 .data-display {
     animation: fadeIn 0.5s ease;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+}
+
+body.dark-mode header {
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 100%);
+    border-bottom-color: #0a2540;
+}
+
+body.dark-mode section {
+    background-color: #16213e;
+    color: #e0e0e0;
+}
+
+body.dark-mode .data-display {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+body.dark-mode h2,
+body.dark-mode h3 {
+    color: #4CAF50;
+}
+
+body.dark-mode .form-inline input {
+    background-color: #0f3460;
+    color: #e0e0e0;
+    border-color: #4CAF50;
+}
+
+body.dark-mode .success {
+    background-color: #1a2e1a;
+    color: #81c784;
+}
+
+body.dark-mode .error {
+    background-color: #2e1a1a;
+    color: #e57373;
+}
+
+body.dark-mode .tip-card {
+    background-color: #0f3460;
+    border-color: #4CAF50;
+}
+
+body.dark-mode .history-item {
+    background-color: #0f3460;
+    border-color: #4CAF50;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(20deg) scale(1.1);
+}
+
+/* Tips Section */
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.tip-card {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+    padding: 25px;
+    border-radius: 12px;
+    border-left: 4px solid #4CAF50;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.tip-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.tip-card h3 {
+    color: #2e7d32;
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+.tip-card p {
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* History Section */
+.history-container {
+    margin-top: 20px;
+}
+
+.empty-state {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+}
+
+.history-item {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #4CAF50;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.history-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.history-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.history-item-date {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
+
+.history-item-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.history-item-content p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+.offset-info {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(76, 175, 80, 0.1);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #2e7d32;
+}
+
+.clear-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #d32f2f 0%, #f44336 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.clear-btn:hover {
+    background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
